@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdat
+
+# data
+data/
+rsconnect/
+!*.Rmd
+source/
+Test Script/

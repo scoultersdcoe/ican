@@ -1,0 +1,194 @@
+#Chronic Absenteeism Network (iCAN)
+
+## TABLE OF CONTENTS
+* DATASET TITLE
+* AUTHORS AND AFFILIATIONS
+* LANGUAGE
+* SUMMARY/ABSTRACT
+* KEYWORDS
+* FILE ORGANIZATION
+* DATASET DESCRIPTION 
+* DATA DICTIONARY
+* DATA ANALYSIS
+* SHARING & ACCESSING INFORMATION
+* ADDITIONAL NOTES/COMMENTS
+
+### DATASET TITLE
+
+We compiled the iCAN dataset from data obtained from local districts participating in the Chronic Absenteeism Network is San Diego.
+
+### AUTHORS AND AFFILIATIONS
+
+* Name: Shannon Coulter
+* Organization/institution: San Diego County Office of Education
+* Email: scoulter@sdcoe.net
+
+### LANGUAGE
+
+* English
+
+### SUMMARY/ABSTRACT
+
+We compiled this dataset to provide monthly dashboards on chronic absenteeism for the 20 schools involved in the network. We built the dataset and dashboards to array chronic absenteeism by grade, race/ethnicity, English learner status, and other categories.
+
+
+* The dashboards that accompany the dataset is also available at:
+
+  * https://cajonpark.netlify.app
+
+### KEYWORDS
+
+accountability; absenteeism; California Schools Dashboard
+
+### FILE ORGANIZATION
+
+* This dataset consists of 1 folder containing XX files:
+  * 1 readme file 
+  * 2 derived data files
+  * 14 output data files
+  * 6 .Rmd files 
+  * 1 .R iteration file
+
+* For the initial input data files see script ***01 ican_import.Rmd***. 
+
+* Each script is named for its step in the analysis process, with an additional short descriptor. 
+
+* HTML files are the actual published dashboards in the "School" folder.
+
+### DATASET DESCRIPTION 
+
+#### Data sources: 
+
+* Each district uploaded data to SDCOE's secure file transfer system using the iCAN data guide.
+
+#### Data collection dates:
+
+* We retrieve data from the SFTS on the 1st of each month
+
+### DATA DICTIONARY/GUIDE
+
+#### Variables for final output CSV file, assistance.csv, and then used for the analyses:
+
+* **ssid** = the unique identifier for each student.
+          
+* **last_name** = students last name.
+               
+* **first_name** = students first name.
+
+* **cds** = unique school identifier.
+
+* **school** = name of the student's school.
+
+* **grade** = current grade level for the student.
+
+* **gender** = student's gender category.
+
+* **his_latino** = a binary code for whether the student is Hispanic.
+                 
+* **race_eth** = the race/ethnicity category for the student.   
+     
+* **sed** = the students socioeconomic status (FERPA).
+
+* **el** = a binary category for whether the student is an English learner.
+
+* **sped** = a binary category for whether the student has an IEP.
+
+* **date** = the date the data were pulled by the data analysis in YYYYMMDD format.
+
+* **exp_att_day** = the max number of school days at the time of the data pull.
+
+* **day_abs** = the number of days the student was absent during the time of the data pull.
+
+* **pct_abs** = the percent of day's absent.
+
+* **abs_levels** = a category aligned with the percent of day's absent, e.g., between 10-19.9% is moderate chronic absenteeism.
+
+* **year** = the year for which the data were pulled.
+
+
+### DATA ANALYSIS
+
+#### Program used:
+* R version R version 4.0.3 (2020-10-10)
+* RStudio 1.3.1093
+* Platform: x86_64-w64-mingw32 (64-bit)
+* Running under: Windows 10
+* Attached base packages:
+  * stats
+  * graphics
+  * devices
+  * utils
+  * datasets 
+  * methods
+  * base     
+* Other attached packages:
+  * dplyr
+  * purrr
+  * readxl
+  * tidyr
+  * ggplot2 
+  * tidyverse
+  * stringr
+  * lubridate
+  * knitr
+  * janitor
+
+#### There are 5 scripts that work sequentially:
+
+**01 ican_import.Rmd** Purpose: Loop through and download each of the data files associated with import file.
+
+  * Package(s): knitr, dplyr, lubridate, here, purr, tidyverse, readxl, stringr, stringi, magrittr
+  
+  * Input file(s): Too many to list.
+   
+   * Output file(s): ican_import.rds
+
+**02 ican_mutate.Rmd** Purpose: tidy and transform data.
+
+  * Package(s): here, tidyverse
+  
+  * Input file(s): ican_import.rds
+  
+  * Output file(s): results_factor.rds
+
+**03 ican_visulaizations.Rmd** Purpose: visualize network data. 
+   * Package(s): ggthemes, ggplot, tidyverse
+   
+   * Input file(s): results_factor.rds
+   
+   * Output file(s): img_1.rds, img_2.rds, img_3.rds, img_4.rds, img_5.rds, img_6.rds, img_7.rds
+
+**04 ican_dashboard.Rmd** Purpose: Generate a dashboard from the visualizations.
+
+  * Package(s): tidyverse, plotly, plyr, flexdashboard, here, shiny, crosstalk, ggthemes, htmltools, ggrepel, DT
+  
+  * Input file(s): img_1.rds, img_2.rds, img_3.rds, img_4.rds, img_5.rds, img_6.rds, img_7.rds
+  
+  * Output file(s): see iterate.R
+
+**05 ican_dashboard_network.Rmd** Purpose: Same as above but for entire network versus by site. See parameters in YAML
+
+* Package(s): tidyverse, plotly, plyr, flexdashboard, here, shiny, crosstalk, ggthemes, htmltools, ggrepel, DT
+  
+  * Input file(s): img_1.rds, img_2.rds, img_3.rds, img_4.rds, img_5.rds, img_6.rds, img_7.rds
+  
+  * Output file(s): ican_dashboard_network.html (knitted dashboard)
+  
+**iterate.R** Purpose: Create multiple iterations for the dashboard, one per school
+
+* Package(s): tidyverse, here
+  
+  * Input file(s): results_factor.csv
+  
+  * Output file(s): output/schools/"school name.html" (for 20 schools.)
+  
+### SHARING & ACCESSING INFORMATION
+
+* **Formally:** Creative Commons Open Source (CC0) to facilitate ease-of-use
+* **Informally:** The citation (in progress):
+
+     * Coulter, S.E. (2022). Addressing chronic absenteeism post pandemic. [White paper]. San Diego County Office of Education. https://www.sdcoe.net/lls/assessment/Pages/evaluation-reports.aspx.
+
+### ADDITIONAL NOTES/COMMENTS
+
+Please let me know if any errors in the dataset are found. 

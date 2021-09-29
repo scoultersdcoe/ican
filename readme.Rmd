@@ -35,6 +35,7 @@ We compiled this dataset to provide monthly dashboards on chronic absenteeism fo
 * The dashboards that accompany the dataset is also available at:
 
   * https://cajonpark.netlify.app
+  * Please note that all data are simulated.
 
 ### KEYWORDS
 

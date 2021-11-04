@@ -9,3 +9,5 @@ rsconnect/
 !*.Rmd
 source/
 Test Script/
+output/cleaned_district_files
+output/cleaned_district_files/deprecated
